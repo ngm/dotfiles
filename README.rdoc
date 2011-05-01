@@ -2,3 +2,15 @@
 
 These are config files to set up a system the way I like it.  
 (Forked from Ryan Bates' dotfiles: https://github.com/ryanb/dotfiles)
+
+== Installation
+
+  git clone git://github.com/ngm/dotfiles ~/.dotfiles
+  cd ~/.dotfiles
+  rake install 
+  # (not tested that this will still work, but basically set up symlinks)
+  git submodule update --init # to pull in the vim/bundles
+
+== Useful links 
+http://vimcasts.org/episodes/synchronizing-plugins-with-git-submodules-and-pathogen/
+
