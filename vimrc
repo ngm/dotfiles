@@ -209,3 +209,10 @@ function! OpenURL()
 endfunction
 map <Leader>w :call OpenURL()<CR>
 
+
+" Bubble single lines using unimpaired.vim
+nmap <C-Up> [e
+nmap <C-Down> ]e
+" Bubble multiple lines using unimpaired.vim
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
