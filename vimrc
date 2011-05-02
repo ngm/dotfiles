@@ -84,7 +84,7 @@ endif " has("autocmd")
 " endif
 
 " Softtabs, 2 spaces
-set tabstop=2
+set tabstop=4
 set shiftwidth=2
 set expandtab
 
@@ -210,9 +210,9 @@ endfunction
 map <Leader>w :call OpenURL()<CR>
 
 
-" Bubble single lines using unimpaired.vim
+" Bubble single lines
 nmap <C-Up> [e
 nmap <C-Down> ]e
-" Bubble multiple lines using unimpaired.vim
+" Bubble multiple lines
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
