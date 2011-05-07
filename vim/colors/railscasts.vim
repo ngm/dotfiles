@@ -48,6 +48,7 @@ hi Define guifg=#CC7733 gui=NONE
 hi! link Include Define
 hi! link Keyword Define
 hi! link Macro Define
+hi! link StorageClass Define
 
 " #{foo}, <%= bar %>
 hi Delimiter guifg=#509E50
