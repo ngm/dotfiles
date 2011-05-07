@@ -67,8 +67,7 @@ hi Statement guifg=#CC7733 gui=NONE
 hi! link PreProc Statement
 hi! link PreCondit Statement
 
-" SomeClassName
-hi Type guifg=NONE gui=NONE
+hi Type guifg=#A5C160 gui=NONE
 
 " has_many, respond_to, params
 hi railsMethod guifg=#DA4938 gui=NONE
