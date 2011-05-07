@@ -85,7 +85,7 @@ endif " has("autocmd")
 
 " Softtabs, 2 spaces
 set tabstop=4
-set shiftwidth=2
+set shiftwidth=4
 set expandtab
 
 " Always display the status line
