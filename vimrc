@@ -4,6 +4,13 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+if has("win32")
+  source $VIMRUNTIME/mswin.vim
+  behave mswin
+  nmap <F11> :silent !start explorer /e,,%:p:h,/select,%:p<CR>
+endif
+
+
 " initialise pathogen stuff
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
