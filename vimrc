@@ -7,6 +7,8 @@ set nocompatible
 if has("win32")
   source $VIMRUNTIME/mswin.vim
   behave mswin
+
+  " Map F11 to open Windows Explorer with current file selected.
   nmap <F11> :silent !start explorer /e,,%:p:h,/select,%:p<CR>
 endif
 
