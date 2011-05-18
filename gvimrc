@@ -1,4 +1,4 @@
-set guioptions-=T " hide toolbar
+set guioptions-=mT " hide menu and toolbar
 
 colorscheme railscasts
 
