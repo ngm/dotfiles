@@ -1,4 +1,6 @@
-set guioptions-=mT " hide menu and toolbar
+" hide menu and toolbar
+set guioptions-=m 
+set guioptions-=T 
 
 colorscheme railscasts
 
