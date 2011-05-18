@@ -5,9 +5,6 @@
 set nocompatible
 
 if has("win32")
-  source $VIMRUNTIME/mswin.vim
-  behave mswin
-
   " Map F11 to open Windows Explorer with current file selected.
   nmap <F11> :silent !start explorer /e,,%:p:h,/select,%:p<CR>
 endif
@@ -136,7 +133,7 @@ map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
-cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+" cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
 " Duplicate a selection
 " Visual mode: D
