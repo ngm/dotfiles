@@ -22,3 +22,6 @@
 [submodule "vim/bundle/markdown"]
 	path = vim/bundle/markdown
 	url = git@github.com:hallison/vim-markdown.git
+[submodule "vim/bundle/supercollider"]
+	path = vim/bundle/supercollider
+	url = https://github.com/sbl/scvim.git
