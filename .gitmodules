@@ -25,3 +25,6 @@
 [submodule "vim/bundle/molokai"]
 	path = vim/bundle/molokai
 	url = git://github.com/tomasr/molokai.git
+[submodule "vim/bundle/supercollider"]
+	path = vim/bundle/supercollider
+	url = git@github.com:ngm/scvim.git
