@@ -95,3 +95,6 @@ hi PMenuSbar guibg=#5A647E gui=NONE
 " thumb of the scrollbar in the popup
 hi PMenuThumb guibg=#AAAAAA gui=NONE
 
+" Some stuff for markdown, can maybe go somewhere better..
+hi htmlH1 guifg=#FFC66D gui=bold
+hi htmlH2 guifg=#FFC66D gui=NONE
