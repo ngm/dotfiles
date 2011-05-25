@@ -28,3 +28,6 @@
 [submodule "vim/bundle/supercollider"]
 	path = vim/bundle/supercollider
 	url = git@github.com:ngm/scvim.git
+[submodule "vim/bundle/nerdcommenter"]
+	path = vim/bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git
