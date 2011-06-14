@@ -202,3 +202,7 @@ nmap <C-Down> ]e
 " Bubble multiple lines
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
+
+
+nnoremap <F9>d "=strftime("%Y-%m-%d")<CR>P
+inoremap <F9>d <C-R>=strftime("%Y-%m-%d")<CR>
