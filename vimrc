@@ -210,7 +210,7 @@ inoremap <F9>d <C-R>=strftime("%Y-%m-%d")<CR>
 
 let g:diffed_buffers=[]
 function DiffText(a, b, diffed_buffers)
-    enew
+    tabnew
     setlocal buftype=nowrite
     call add(a:diffed_buffers, bufnr('%'))
     call setline(1, split(a:a, "\n"))
