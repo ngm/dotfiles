@@ -206,3 +206,26 @@ vmap <C-Down> ]egv
 
 nnoremap <F9>d "=strftime("%Y-%m-%d")<CR>P
 inoremap <F9>d <C-R>=strftime("%Y-%m-%d")<CR>
+
+
+let g:diffed_buffers=[]
+function DiffText(a, b, diffed_buffers)
+    enew
+    setlocal buftype=nowrite
+    call add(a:diffed_buffers, bufnr('%'))
+    call setline(1, split(a:a, "\n"))
+    diffthis
+    vnew
+    setlocal buftype=nowrite
+    call add(a:diffed_buffers, bufnr('%'))
+    call setline(1, split(a:b, "\n"))
+    diffthis
+endfunction
+function WipeOutDiffs(diffed_buffers)
+    for buffer in a:diffed_buffers
+        execute 'bwipeout! '.buffer
+    endfor
+endfunction
+nnoremap <special> <F9><F7> :call DiffText(@a, @b, g:diffed_buffers)<CR>
+nnoremap <special> <F9><F8> :call WipeOutDiffs(g:diffed_buffers)<CR>
+
