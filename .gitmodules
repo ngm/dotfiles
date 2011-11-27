@@ -46,3 +46,6 @@
 [submodule "SQLUtilities"]
 	path = vim/bundle/SQLUtilities
 	url = https://github.com/vim-scripts/SQLUtilities.git
+[submodule "vim/bundle/gist"]
+	path = vim/bundle/gist
+	url = https://github.com/mattn/gist-vim.git
