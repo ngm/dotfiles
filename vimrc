@@ -51,7 +51,6 @@ if has("autocmd")
 
   " Set File type to 'text' for files ending in .txt
   autocmd BufNewFile,BufRead *.txt setfiletype text
-  au BufNewFile,BufRead *.ps1  setf ps1
 
   " Enable soft-wrapping for text files
   autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
@@ -126,6 +125,7 @@ vmap P p :call setreg('"', getreg('0')) <CR>
 
 " For Haml
 au! BufRead,BufNewFile *.haml         setfiletype haml
+au! BufNewFile,BufRead *.ps1  setf ps1
 
 " No Help, please
 nmap <F1> <Esc>

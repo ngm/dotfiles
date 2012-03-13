@@ -2,7 +2,7 @@
 set guioptions-=m 
 set guioptions-=T 
 
-colorscheme railscasts
+colorscheme sienna
 
 if has("unix")
     set guifont=Monospace\ 10
