@@ -46,9 +46,9 @@
 [submodule "SQLUtilities"]
 	path = vim/bundle/SQLUtilities
 	url = https://github.com/vim-scripts/SQLUtilities.git
-[submodule "bundle/sienna"]
-	path = bundle/sienna
-	url = https://github.com/vim-scripts/sienna.git
 [submodule "vim/bundle/sienna"]
 	path = vim/bundle/sienna
 	url = https://github.com/vim-scripts/sienna.git
+[submodule "vim/bundle/gist"]
+	path = vim/bundle/gist
+	url = https://github.com/mattn/gist-vim.git
