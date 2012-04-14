@@ -1,0 +1,16 @@
+" Passkeys for gmail
+set passkeys+=mail.google.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjklmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
+
+" Always open help in a new tab
+set newtab+=help
+
+set mapleader=','
+
+" Browser back and forward
+nnoremap h H
+nnoremap H h
+nnoremap l L
+nnoremap L l
+
+
+" vim: set ft=vim :
