@@ -4,9 +4,12 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+let g:pathogen_disabled = []
+
 if has("win32")
   " Map F11 to open Windows Explorer with current file selected.
   nmap <F11> :silent !start explorer /e,,%:p:h,/select,%:p<CR>
+  call add(g:pathogen_disabled, 'gist')
 endif
 
 
