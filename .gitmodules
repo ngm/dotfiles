@@ -64,3 +64,9 @@
 [submodule "vim/bundle/timelog"]
 	path = vim/bundle/timelog
 	url = https://github.com/vim-scripts/timelog.vim.git
+[submodule "vim/bundle/vikitasks_vim"]
+	path = vim/bundle/vikitasks_vim
+	url = https://github.com/tomtom/vikitasks_vim.git
+[submodule "vim/bundle/trag_vim"]
+	path = vim/bundle/trag_vim
+	url = https://github.com/tomtom/trag_vim.git
