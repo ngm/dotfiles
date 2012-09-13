@@ -61,3 +61,6 @@
 [submodule "vim/bundle/pathogen"]
 	path = vim/bundle/pathogen
 	url = https://github.com/tpope/vim-pathogen.git
+[submodule "vim/bundle/timelog"]
+	path = vim/bundle/timelog
+	url = https://github.com/vim-scripts/timelog.vim.git
