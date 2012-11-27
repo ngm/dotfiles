@@ -7,10 +7,10 @@ set newtab+=help
 set mapleader=','
 
 " Browser back and forward
-nnoremap h H
-nnoremap H h
-nnoremap l L
-nnoremap L l
+nmap -builtin h H
+nmap -builtin H h
+nmap -builtin l L
+nmap -builtin L l
 
 
-" vim: set ft=vim :
+" vim: set ft=vim
