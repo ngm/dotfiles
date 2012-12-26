@@ -70,3 +70,6 @@
 [submodule "vim/bundle/trag_vim"]
 	path = vim/bundle/trag_vim
 	url = https://github.com/tomtom/trag_vim.git
+[submodule "vim/bundle/vim-creole"]
+	path = vim/bundle/vim-creole
+	url = https://github.com/vim-scripts/vim-creole.git
