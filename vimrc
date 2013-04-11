@@ -239,3 +239,7 @@ nnoremap <special> <F9><F8> :call WipeOutDiffs(g:diffed_buffers)<CR>
 if exists("&wildignorecase")
     set wildignorecase
 endif
+
+" change dirs for backup files and swp files
+set backupdir=~/.vim-tmp,~/vim-tmp,~/tmp,/var/tmp,/tmp,C:\Windows\Temp
+set dir=~/.vim-tmp,~/vim-tmp,~/tmp,/var/tmp,/tmp,C:\Windows\Temp
