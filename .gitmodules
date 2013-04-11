@@ -73,3 +73,6 @@
 [submodule "vim/bundle/vim-creole"]
 	path = vim/bundle/vim-creole
 	url = https://github.com/vim-scripts/vim-creole.git
+[submodule "vim/bundle/tabular"]
+	path = vim/bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
