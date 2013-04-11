@@ -236,3 +236,6 @@ endfunction
 nnoremap <special> <F9><F7> :call DiffText(@a, @b, g:diffed_buffers)<CR>
 nnoremap <special> <F9><F8> :call WipeOutDiffs(g:diffed_buffers)<CR>
 
+if exists("&wildignorecase")
+    set wildignorecase
+endif
