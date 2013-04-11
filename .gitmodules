@@ -76,3 +76,6 @@
 [submodule "vim/bundle/tabular"]
 	path = vim/bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
+[submodule "vim/bundle/table-mode"]
+	path = vim/bundle/table-mode
+	url = git@github.com:dhruvasagar/vim-table-mode.git
