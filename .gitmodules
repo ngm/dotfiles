@@ -79,3 +79,6 @@
 [submodule "vim/bundle/table-mode"]
 	path = vim/bundle/table-mode
 	url = git@github.com:dhruvasagar/vim-table-mode.git
+[submodule "vim/bundle/neverland-theme"]
+	path = vim/bundle/neverland-theme
+	url = https://github.com/trapd00r/neverland-vim-theme.git
