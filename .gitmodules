@@ -82,3 +82,9 @@
 [submodule "vim/bundle/neverland-theme"]
 	path = vim/bundle/neverland-theme
 	url = https://github.com/trapd00r/neverland-vim-theme.git
+[submodule "vim/bundle/Omnisharp"]
+	path = vim/bundle/Omnisharp
+	url = https://github.com/nosami/Omnisharp.git
+[submodule "vim/bundle/vim-dispatch"]
+	path = vim/bundle/vim-dispatch
+	url = git://github.com/tpope/vim-dispatch.git
