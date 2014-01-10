@@ -4,7 +4,9 @@ set passkeys+=mail.google.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjklmnopqrsuv
 " Always open help in a new tab
 set newtab+=help
 
-set mapleader=','
+" Bye-bye mapleader
+map \\ <Nop>
+map , <Leader>
 
 " Browser back and forward
 nmap -builtin h H
