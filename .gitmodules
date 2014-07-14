@@ -12,22 +12,22 @@
 	url = https://github.com/tpope/vim-unimpaired.git
 [submodule "vim/bundle/solarized"]
 	path = vim/bundle/solarized
-	url = git@github.com:altercation/vim-colors-solarized.git
+	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar.git
 [submodule "vim/bundle/snipmate"]
 	path = vim/bundle/snipmate
-	url = git@github.com:sahchandler/vim-snipmate.git
+	url = https://github.com/sahchandler/vim-snipmate.git
 [submodule "vim/bundle/markdown"]
 	path = vim/bundle/markdown
-	url = git@github.com:hallison/vim-markdown.git
+	url = https://github.com/hallison/vim-markdown.git
 [submodule "vim/bundle/molokai"]
 	path = vim/bundle/molokai
-	url = git@github.com:tomasr/molokai.git
+	url = https://github.com/tomasr/molokai.git
 [submodule "vim/bundle/supercollider"]
 	path = vim/bundle/supercollider
-	url = git@github.com:ngm/scvim.git
+	url = https://github.com/ngm/scvim.git
 [submodule "vim/bundle/nerdcommenter"]
 	path = vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
@@ -78,7 +78,7 @@
 	url = https://github.com/godlygeek/tabular.git
 [submodule "vim/bundle/table-mode"]
 	path = vim/bundle/table-mode
-	url = git@github.com:dhruvasagar/vim-table-mode.git
+	url = https://github.com/dhruvasagar/vim-table-mode.git
 [submodule "vim/bundle/neverland-theme"]
 	path = vim/bundle/neverland-theme
 	url = https://github.com/trapd00r/neverland-vim-theme.git
@@ -87,4 +87,4 @@
 	url = https://github.com/nosami/Omnisharp.git
 [submodule "vim/bundle/vim-dispatch"]
 	path = vim/bundle/vim-dispatch
-	url = git://github.com/tpope/vim-dispatch.git
+	url = https://github.com/tpope/vim-dispatch.git
