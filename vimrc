@@ -15,8 +15,8 @@ endif
 
 " initialise pathogen stuff
 runtime bundle/pathogen/autoload/pathogen.vim
-call pathogen#incubate()
-call pathogen#helptags()
+execute pathogen#infect()
+" call pathogen#helptags()
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
