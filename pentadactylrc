@@ -14,5 +14,6 @@ nmap -builtin H h
 nmap -builtin l L
 nmap -builtin L l
 
+highlight FontFixed /* The font used for fixed-width text */ font-family: monospace !important; font-size:10pt;
 
 " vim: set ft=vim
