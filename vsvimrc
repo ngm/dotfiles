@@ -1,0 +1,25 @@
+set novsvim_useeditordefaults
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+set history=50		" keep 50 lines of command line history
+set incsearch		" do incremental searching
+set clipboard=unnamedplus,unnamed
+
+" Switch wrap off for everything
+set nowrap
+
+set autoindent		" always set autoindenting on
+
+" Softtabs, 2 spaces
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Numbers
+set number
+
+" case only matters with mixed case expressions
+set ignorecase
+set smartcase
