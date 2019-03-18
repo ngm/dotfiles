@@ -489,14 +489,21 @@ you should place your code here."
     (interactive "sEnter note: ")
     (shell-command (concat shpub-path " note " note)))
 
+  (defun ngm-visual-line-motion ()
+    "So j and k move up and down more like you'd expect in visual line mode"
+    (interactive)
+    (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+    (define-key evil-motion-state-map "k" 'evil-previous-visual-line))
+
   (defun ngm-journal-mode ()
     "Set up journalling mode the way that I like it"
     (interactive)
     (olivetti-mode)
     (variable-pitch-mode 1)
-    (define-key evil-motion-state-map "j" 'evil-next-visual-line)
-    (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-    (set-face-attribute 'variable-pitch nil :family "Bitstream Charter" :height 140))
+    (set-face-attribute 'variable-pitch nil :family "Bitstream Charter" :height 140)
+    (ngm-visual-line-motion)
+    ; turn off company-mode (it's on by default)
+    (company-mode 'toggle))
 
   ;; org capture
   (setq org-capture-templates
