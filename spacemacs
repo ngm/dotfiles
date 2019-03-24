@@ -517,57 +517,65 @@ you should place your code here."
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (add-to-list 'auto-mode-alist '("\\.blade.php\\'" . web-mode))
-  (setq org-super-agenda-groups
-       '(;; Each group has an implicit boolean OR operator between its selectors.
-         (:name "Today"  ; Optionally specify section name
-                :time-grid t  ; Items that appear on the time grid
-                :tag "today"
-                :todo "TODAY")  ; Items that have this TODO keyword
-         (:name "Important"
-                ;; Single arguments given alone
-                :tag "bills"
-                :priority "A")
-         ;; Set order of multiple groups at once
-         (:name "Quick wins (< 20 mins)"
-                :effort< "0:20")
-         (:name "Cleaning"
-                :tag "cleaning"
-                :order 5)
-         (:name "Chores"
-                :tag "chore"
-                :order 5)
-         (:name "Stuck"
-                :tag "stuck"
-                :order 2)
-         (:name "Town"
-                :tag ("town" "@town")
-                :order 9)
-         (:order-multi (2 (:name "Shopping in town"
-                                 ;; Boolean AND group matches items that match all subgroups
-                                 :and (:tag "shopping" :tag "@town"))
-                          ;;(:name "Personal"
-                          ;;       :habit t
-                          ;;       :tag "personal")
-                          (:name "Food-related"
-                                 ;; Multiple args given in list with implicit OR
-                                 :tag ("food" "dinner"))))
-         ;; Groups supply their own section names when none are given
-         (:todo "WAITING" :order 8)  ; Set order of this section
-         (:todo ("SOMEDAY" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
-                ;; Show this group at the end of the agenda (since it has the
-                ;; highest number). If you specified this group last, items
-                ;; with these todo keywords that e.g. have priority A would be
-                ;; displayed in that group instead, because items are grouped
-                ;; out in the order the groups are listed.
-                :order 9)
-         (:priority<= "B"
-                      ;; Show this section after "Today" and "Important", because
-                      ;; their order is unspecified, defaulting to 0. Sections
-                      ;; are displayed lowest-number-first.
-                      :order 3)
-         ;; After the last group, the agenda will display items that didn't
-         ;; match any of these groups, with the default order position of 99
-         ))
+
+  (setq org-agenda-custom-commands
+        '(("g" "Super groups"
+           agenda ""
+           ((org-super-agenda-groups
+             '((:auto-property "agenda-group")))))
+          ("u" "Super view"
+           agenda ""
+           ((org-super-agenda-groups
+             '(;; Each group has an implicit boolean OR operator between its selectors.
+               (:name "Today"  ; Optionally specify section name
+                      :time-grid t  ; Items that appear on the time grid
+                      :tag "today"
+                      :todo "TODAY")  ; Items that have this TODO keyword
+               (:name "Important"
+                      ;; Single arguments given alone
+                      :tag "bills"
+                      :priority "A")
+               ;; Set order of multiple groups at once
+               (:name "Quick wins (< 20 mins)"
+                      :effort< "0:20")
+               (:name "Cleaning"
+                      :tag "cleaning"
+                      :order 5)
+               (:name "Chores"
+                      :tag "chore"
+                      :order 5)
+               (:name "Stuck"
+                      :tag "stuck"
+                      :order 2)
+               (:name "Town"
+                      :tag ("town" "@town")
+                      :order 9)
+               (:order-multi (2 (:name "Shopping in town"
+                                       ;; Boolean AND group matches items that match all subgroups
+                                       :and (:tag "shopping" :tag "@town"))
+                                ;;(:name "Personal"
+                                ;;       :habit t
+                                ;;       :tag "personal")
+                                (:name "Food-related"
+                                       ;; Multiple args given in list with implicit OR
+                                       :tag ("food" "dinner"))))
+               ;; Groups supply their own section names when none are given
+               (:todo "WAITING" :order 8)  ; Set order of this section
+               (:todo ("SOMEDAY" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
+                      ;; Show this group at the end of the agenda (since it has the
+                      ;; highest number). If you specified this group last, items
+                      ;; with these todo keywords that e.g. have priority A would be
+                      ;; displayed in that group instead, because items are grouped
+                      ;; out in the order the groups are listed.
+                      :order 9)
+               (:priority<= "B"
+                            ;; Show this section after "Today" and "Important", because
+                            ;; their order is unspecified, defaulting to 0. Sections
+                            ;; are displayed lowest-number-first.
+                            :order 3)
+               ;; After the last group, the agenda will display items that didn't
+               ;; match any of these groups, with the default order position of 99
+               ))))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
