@@ -73,7 +73,6 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      syntax-checking
      ;; version-control
-     themes-megapack
      )
 
    ;; List of additional packages that will be installed without being
