@@ -40,9 +40,9 @@ This function should only modify configuration layer settings."
      sql
      javascript
      treemacs
-     (micropub :variables
-               token (getenv "EMUPUB_TOKEN")
-               endpoint (getenv "EMUPUB_ENDPOINT"))
+     ;(micropub :variables
+     ;          token (getenv "EMUPUB_TOKEN")
+     ;          endpoint (getenv "EMUPUB_ENDPOINT"))
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -479,7 +479,7 @@ you should place your code here."
   )
 
   (add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
-  (require 'tidal)
+  ;;(require 'tidal)
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 9)))
   (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
