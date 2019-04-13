@@ -25,3 +25,21 @@ To eventually be automated, e.g. as a shell script or with something like ansibl
   - clone spacemacs files into .emacs.d
     - had to do this to fix org refile issue: https://github.com/syl20bnr/spacemacs/issues/11801#issuecomment-451755821
   - install keepassxc
+  - mkdir Code
+  - mkdir Programs
+  - ln -sr .dotfiles/bash_profile .bash_profile
+  - ln -sr .dotfiles/bashrc .bashrc
+  - ln -sr .dotfiles/bash .bash
+  - ln -sr .dotfiles/zsh .zsh
+  - cp .dotfile/localrc.example .localrc
+    - fill in values
+  
+## dev extras
+
+- install php
+  - this also includes apache
+
+- setup php-cs-fixer in emacs
+- https://github.com/FriendsOfPHP/PHP-CS-Fixer#installation
+
+
