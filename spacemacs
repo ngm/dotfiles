@@ -40,9 +40,9 @@ This function should only modify configuration layer settings."
      sql
      javascript
      treemacs
-     ;(micropub :variables
-     ;          token (getenv "EMUPUB_TOKEN")
-     ;          endpoint (getenv "EMUPUB_ENDPOINT"))
+     (micropub :variables
+              token (getenv "EMUPUB_TOKEN")
+              endpoint (getenv "EMUPUB_ENDPOINT"))
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
