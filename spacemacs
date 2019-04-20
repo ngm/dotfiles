@@ -41,8 +41,9 @@ This function should only modify configuration layer settings."
      javascript
      treemacs
      (micropub :variables
-              token (getenv "EMUPUB_TOKEN")
-              endpoint (getenv "EMUPUB_ENDPOINT"))
+               token (getenv "EMUPUB_TOKEN")
+               endpoint (getenv "EMUPUB_ENDPOINT")
+               targets-config-file "~/.emacs.d/private/micropub/targets-config-file")
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
