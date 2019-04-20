@@ -478,6 +478,13 @@ you should place your code here."
     (define-key php-mode-map (kbd "C-c C-t p") 'phpunit-current-project)
   )
 
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((sql . t)
+       (python . t)
+       (shell . t))))
+
   (add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
   ;;(require 'tidal)
   (setq org-refile-targets '((nil :maxlevel . 9)
