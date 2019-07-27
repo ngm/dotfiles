@@ -474,6 +474,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
     (setq tramp-ssh-controlmasster-options
           "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+    (setq centaur-tabs-set-bar 'over)
   )
 
 (defun dotspacemacs/user-config ()
@@ -609,6 +610,26 @@ you should place your code here."
   ;;
   ;; NOTE: This is necessary for themes in the doom-themes package!
   (solaire-mode-swap-bg)
+
+  ;; centaur-tabs configuration
+  ;; https://github.com/ema2159/centaur-tabs
+  (require 'centaur-tabs)
+  (centaur-tabs-mode t)
+  (global-set-key (kbd "C-<prior>")  'centaur-tabs-backward)
+  (global-set-key (kbd "C-<next>") 'centaur-tabs-forward)
+  (centaur-tabs-mode)
+  (centaur-tabs-headline-match)
+  (setq centaur-tabs-set-modified-marker t
+        centaur-tabs-modified-marker " ● "
+        centaur-tabs-cycle-scope 'tabs
+        centaur-tabs-height 30
+        centaur-tabs-set-icons t
+        centaur-tabs-close-button " × ")
+  (dolist (centaur-face '(centaur-tabs-selected
+                          centaur-tabs-selected-modified
+                          centaur-tabs-unselected
+                          centaur-tabs-unselected-modified))
+    (set-face-attribute centaur-face nil :family "Verdana" :height 100))
 
   (doom-themes-treemacs-config)
   (doom-themes-org-config))
