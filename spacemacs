@@ -585,7 +585,29 @@ you should place your code here."
                ;; After the last group, the agenda will display items that didn't
                ;; match any of these groups, with the default order position of 99
                ))))))
-  )
+
+
+  ;; solaire configuration
+  ;; https://github.com/hlissner/emacs-solaire-mode
+  (require 'solaire-mode)
+  ;; Enable solaire-mode anywhere it can be enabled
+  (solaire-global-mode +1)
+  ;; To enable solaire-mode unconditionally for certain modes:
+  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
+
+  ;; ...if you use auto-revert-mode, this prevents solaire-mode from turning
+  ;; itself off every time Emacs reverts the file
+  (add-hook 'after-revert-hook #'turn-on-solaire-mode)
+
+  ;; highlight the minibuffer when it is activated:
+  (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
+
+  ;; if the bright and dark background colors are the wrong way around, use this
+  ;; to switch the backgrounds of the `default` and `solaire-default-face` faces.
+  ;; This should be used *after* you load the active theme!
+  ;;
+  ;; NOTE: This is necessary for themes in the doom-themes package!
+  (solaire-mode-swap-bg))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
