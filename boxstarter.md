@@ -38,6 +38,9 @@ To eventually be automated, e.g. as a shell script or with something like ansibl
 
 - install php
   - this also includes apache
+  - php-mbstring
+  - php-xml
+- sudo a2enmod rewrite
 
 - setup php-cs-fixer in emacs
 - https://github.com/FriendsOfPHP/PHP-CS-Fixer#installation
