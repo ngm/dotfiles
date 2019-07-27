@@ -33,47 +33,34 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(csv
-     yaml
-     python
-     markdown
-     sql
+   '(
+     auto-completion
+     csv
+     emacs-lisp
+     erc
+     git
+     haskell
+     helm
+     html
+     imenu-list
      javascript
-     treemacs
+     markdown
      (micropub :variables
                token (getenv "EMUPUB_TOKEN")
                endpoint (getenv "EMUPUB_ENDPOINT")
                targets-config-file "~/.emacs.d/private/micropub/targets-config-file")
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     php
-     html
-     helm
-     auto-completion
      multiple-cursors
-     ;; better-defaults
-     imenu-list
-     emacs-lisp
-     git
-     erc
-     haskell
-     ;;neotree
-     ;; markdown
-     ;;org
      (org :variables
           org-enable-org-journal-support t)
-     ;;orgwiki
-     ;;org-brain
-     ;;journal
+     php
+     python
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; spell-checking
+     sql
      syntax-checking
-     ;; version-control
+     treemacs
+     yaml
      )
 
    ;; List of additional packages that will be installed without being
