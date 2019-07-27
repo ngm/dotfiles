@@ -41,9 +41,9 @@ This function should only modify configuration layer settings."
      javascript
      treemacs
      (micropub :variables
-               targets-config-file "~/.emacs.d/private/micropub/targets.config"
                token (getenv "EMUPUB_TOKEN")
-               endpoint (getenv "EMUPUB_ENDPOINT"))
+               endpoint (getenv "EMUPUB_ENDPOINT")
+               targets-config-file "~/.emacs.d/private/micropub/targets-config-file")
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -491,18 +491,19 @@ you should place your code here."
     (define-key php-mode-map (kbd "C-c C-t p") 'phpunit-current-project)
   )
 
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((sql . t)
+       (python . t)
+       (shell . t))))
+
   (add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
   ;;(require 'tidal)
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 9)))
   (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
   (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
-
-  ;; shpub
-  (setq shpub-path "/usr/local/bin/shpub")
-  (defun shpub (note)
-    (interactive "sEnter note: ")
-    (shell-command (concat shpub-path " note " note)))
 
   (defun ngm-visual-line-motion ()
     "So j and k move up and down more like you'd expect in visual line mode"
