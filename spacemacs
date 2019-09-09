@@ -486,7 +486,7 @@ you should place your code here."
        (python . t)
        (shell . t))))
 
-  (add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
+  ;(add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
   ;;(require 'tidal)
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 9)))
