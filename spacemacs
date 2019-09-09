@@ -49,6 +49,7 @@ This function should only modify configuration layer settings."
                token (getenv "EMUPUB_TOKEN")
                endpoint (getenv "EMUPUB_ENDPOINT")
                targets-config-file "~/.emacs.d/private/micropub/targets-config-file")
+     mu4e
      multiple-cursors
      (org :variables
           org-enable-org-journal-support t)
