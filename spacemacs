@@ -612,17 +612,71 @@ you should place your code here."
   (setq centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker " ● "
         centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-height 30
+        centaur-tabs-height 35
         centaur-tabs-set-icons t
         centaur-tabs-close-button " × ")
   (dolist (centaur-face '(centaur-tabs-selected
                           centaur-tabs-selected-modified
                           centaur-tabs-unselected
                           centaur-tabs-unselected-modified))
-    (set-face-attribute centaur-face nil :family "Verdana" :height 100))
+    (set-face-attribute centaur-face nil :family "Noto Sans Mono" :height 100))
 
   (doom-themes-treemacs-config)
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+
+  ; mu4e config
+  (setq mu4e-maildir "~/Maildir"
+        mu4e-attachment-dir "~/downloads"
+        mu4e-sent-folder "/Sent"
+        mu4e-drafts-folder "/Drafts"
+        mu4e-trash-folder "/Trash"
+        mu4e-refile-folder "/Archive")
+
+  (setq user-mail-address "neil@doubleloop.net"
+        user-full-name  "Neil Mather")
+
+  ;; Get mail
+  (setq mu4e-get-mail-command "mbsync protonmail"
+        mu4e-change-filenames-when-moving t   ; needed for mbsync
+        mu4e-update-interval 120)             ; update every 2 minutes
+
+  (defun htmlize-and-send ()
+    "When in an org-mu4e-compose-org-mode message, htmlize and send it."
+    (interactive)
+    (when (member 'org~mu4e-mime-switch-headers-or-body post-command-hook)
+      (org-mime-htmlize) 
+      (message-send-and-exit)))
+
+  (add-hook 'org-ctrl-c-ctrl-c-hook 'htmlize-and-send t)
+
+  ;; composing mail
+  ;(setq mu4e-compose-format-flowed nil)
+  ;(add-hook 'mu4e-compose-mode-hook (lambda () (turn-off-auto-fill) (use-hard-newlines -1)))
+  ;; enable format=flowed
+  ;; - mu4e sets up visual-line-mode and also fill (M-q) to do the right thing
+  ;; - each paragraph is a single long line; at sending, emacs will add the
+  ;;   special line continuation characters.
+  ;; - also see visual-line-fringe-indicators setting below
+  (setq mu4e-compose-format-flowed t)
+  ;; because it looks like email clients are basically ignoring format=flowed,
+  ;; let's complicate their lives too. send format=flowed with looong lines. :)
+  ;; https://www.ietf.org/rfc/rfc2822.txt
+  (setq fill-flowed-encode-column 998)
+  ;; in mu4e with format=flowed, this gives me feedback where the soft-wraps are
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+
+  ;; Send mail
+  (setq message-send-mail-function 'smtpmail-send-it
+        smtpmail-auth-credentials "~/.authinfo" ;; Here I assume you encrypted the credentials
+        smtpmail-smtp-server "127.0.0.1"
+        smtpmail-smtp-service 1025)
+
+  ;; look'n'feel
+  (setq mu4e-html2text-command 'mu4e-shr2text)
+  (setq shr-color-visible-luminance-min 60)
+  (setq shr-color-visible-distance-min 5)
+  (setq shr-use-colors nil)
+  (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
