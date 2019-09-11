@@ -519,6 +519,8 @@ you should place your code here."
 
   (add-to-list 'auto-mode-alist '("\\.blade.php\\'" . web-mode))
 
+  ;; org super agenda
+  (org-super-agenda-mode)
   (setq org-agenda-custom-commands
         '(("g" "Super groups"
            agenda ""
