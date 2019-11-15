@@ -505,7 +505,7 @@ you should place your code here."
     (interactive)
     (olivetti-mode)
     (variable-pitch-mode 1)
-    (face-remap-add-relative 'variable-pitch '(:family "Bitstream Charter" :height 140))
+    (face-remap-add-relative 'variable-pitch '(:family "Roboto Slab" :height 140))
     (ngm-visual-line-motion)
     ; turn off company-mode (it's on by default)
     (company-mode 'toggle))
