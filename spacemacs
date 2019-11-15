@@ -679,7 +679,44 @@ you should place your code here."
   (setq shr-color-visible-luminance-min 60)
   (setq shr-color-visible-distance-min 5)
   (setq shr-use-colors nil)
-  (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore))))
+  (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+
+
+  (require 'ox-publish)
+
+  (setq commonplace/project-dir "~/commonplace/")
+  (setq commonplace/publish-dir "/var/www/html/commonplace/")
+
+  (setq commonplace/preamble "<div><a href='/'>Neil's Commonplace</a></div>")
+  (setq commonplace/postamble "<a href='https://gitlab.com/ngm/commonplace/activity'>Recent changes</a>")
+  (setq commonplace/head-extra "<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>")
+
+  (setq org-publish-project-alist
+        `(("commonplace"
+           :components ("commonplace-notes" "commonplace-static"))
+          ("commonplace-notes"
+           :base-directory ,commonplace/project-dir
+           :base-extension "org"
+           :publishing-directory ,commonplace/publish-dir
+           :publishing-function org-html-publish-to-html
+           :recursive t
+           :headline-levels 4
+           :html-doctype "html5"
+           :html-html5-fancy t
+           :html-preamble commonplace/preamble
+           :html-postamble commonplace/postamble
+           :html-head-include-scripts nil
+           :html-head-include-default-style nil
+           :html-head-extra ,commonplace/head-extra
+           :htmlized-source t
+           )
+          ("commonplace-static"
+           :base-directory ,commonplace/project-dir
+           :base-extension "css\\|js\\|png\\|jpg\\|gif"
+           :publishing-directory ,commonplace/publish-dir
+           :recursive t
+           :publishing-function org-publish-attachment)))
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
