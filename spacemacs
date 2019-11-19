@@ -706,8 +706,8 @@ you should place your code here."
            :headline-levels 4
            :html-doctype "html5"
            :html-html5-fancy t
-           :html-preamble commonplace/preamble
-           :html-postamble commonplace/postamble
+           :html-preamble ,commonplace/preamble
+           :html-postamble ,commonplace/postamble
            :html-head-include-scripts nil
            :html-head-include-default-style nil
            :html-head-extra ,commonplace/head-extra
