@@ -736,6 +736,12 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(markdown-command "pandoc")
  '(org-agenda-files (quote ("~/org/_GTD.org")))
+ '(org-agenda-prefix-format
+   (quote
+    ((agenda . " %i %-12:c%?-12t [%-4e] % s")
+     (todo . " %i %-12:c")
+     (tags . " %i %-12:c")
+     (search . " %i %-12:c"))))
  '(org-journal-dir "~/org/journal/")
  '(org-log-into-drawer t)
  '(package-selected-packages
