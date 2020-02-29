@@ -712,6 +712,8 @@ you should place your code here."
            :html-head-include-default-style nil
            :html-head-extra ,commonplace/head-extra
            :htmlized-source t
+           :auto-sitemap t
+           :sitemap-title "All pages"
            )
           ("commonplace-static"
            :base-directory ,commonplace/project-dir
