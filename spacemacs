@@ -33,6 +33,7 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     racket
      auto-completion
      csv
      emacs-lisp
@@ -61,6 +62,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      treemacs
      yaml
+     org-roam
      )
 
    ;; List of additional packages that will be installed without being
@@ -71,7 +73,7 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '()
-   dotspacemacs-additional-packages '(org-trello feature-mode org-clock-csv geben visual-fill-column emacsql-sqlite org-plus-contrib request anki-editor olivetti format-all solaire-mode doom-themes centaur-tabs org-super-agenda org-timeline)
+   dotspacemacs-additional-packages '(feature-mode org-clock-csv geben visual-fill-column request olivetti format-all solaire-mode doom-themes org-super-agenda org-timeline)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
@@ -406,7 +408,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -469,7 +471,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
     (setq tramp-ssh-controlmasster-options
           "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-    (setq centaur-tabs-set-bar 'over)
+    ;(setq centaur-tabs-set-bar 'over)
   )
 
 (defun dotspacemacs/user-load ()
@@ -487,26 +489,23 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; coding
+  (setq exec-path (append exec-path '("/home/restart/Programs/node/bin/")))
+
   (with-eval-after-load 'php-mode
     (define-key php-mode-map (kbd "C-c C-t t") 'phpunit-current-test)
     (define-key php-mode-map (kbd "C-c C-t c") 'phpunit-current-class)
     (define-key php-mode-map (kbd "C-c C-t p") 'phpunit-current-project)
   )
 
-  (with-eval-after-load 'org
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((sql . t)
-       (python . t)
-       (shell . t))))
+  (add-to-list 'auto-mode-alist '("\\.blade.php\\'" . web-mode))
 
-  ;(add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
+  ;; tidal
+  ;;(add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
   ;;(require 'tidal)
-  (setq org-refile-targets '((nil :maxlevel . 9)
-                             (org-agenda-files :maxlevel . 9)))
-  (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
-  (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
 
+
+  ;; writing
   (defun ngm-visual-line-motion ()
     "So j and k move up and down more like you'd expect in visual line mode"
     (interactive)
@@ -523,16 +522,42 @@ you should place your code here."
     ; turn off company-mode (it's on by default)
     (company-mode 'toggle))
 
-  ;; org capture
+
+  ;;
+  ;; org
+  ;;
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((sql . t)
+       (python . t)
+       (shell . t))))
+
+
+  (setq org-refile-targets '((nil :maxlevel . 9)
+                             (org-agenda-files :maxlevel . 9)))
+  (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
+  (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
+
+
+  ;; capturing
+  (require 'org-protocol)
+  (add-to-list 'load-path "/home/neil/.emacs.d/private/org-protocol-capture-html")
+  (require 'org-protocol-capture-html)
+
   (setq org-capture-templates
         (quote
-         (("c" "TODO scheduled today" entry (file+headline "~/org/_GTD.org" "Inbox")
-           "** TODO %?\n SCHEDULED: %t\n"))))
+         (("c" "TODO scheduled today"
+           entry (file+headline "~/org/_GTD.org" "Inbox")
+           "** TODO %?\n SCHEDULED: %t\n")
+          ("w" "Web site clipping"
+           entry (file+olp "/home/shared/commonplace/clippings.org" "Clippings")
+           "* %c :website:\n%U %?%:initial"))))
+
   ;; to start in insert mode when creating via capture template
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
-  (add-to-list 'auto-mode-alist '("\\.blade.php\\'" . web-mode))
-
+  ;; agenda
   ;; org super agenda
   (org-super-agenda-mode)
   (setq org-agenda-custom-commands
@@ -594,6 +619,10 @@ you should place your code here."
                ;; match any of these groups, with the default order position of 99
                ))))))
 
+  ;; org-timeline
+  (require 'org-timeline)
+  (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
+
 
   ;; solaire configuration
   ;; https://github.com/hlissner/emacs-solaire-mode
@@ -619,28 +648,30 @@ you should place your code here."
 
   ;; centaur-tabs configuration
   ;; https://github.com/ema2159/centaur-tabs
-  (require 'centaur-tabs)
-  (centaur-tabs-mode t)
-  (global-set-key (kbd "C-<prior>")  'centaur-tabs-backward)
-  (global-set-key (kbd "C-<next>") 'centaur-tabs-forward)
-  (centaur-tabs-mode)
-  (centaur-tabs-headline-match)
-  (setq centaur-tabs-set-modified-marker t
-        centaur-tabs-modified-marker " ● "
-        centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-height 35
-        centaur-tabs-set-icons t
-        centaur-tabs-close-button " × ")
-  (dolist (centaur-face '(centaur-tabs-selected
-                          centaur-tabs-selected-modified
-                          centaur-tabs-unselected
-                          centaur-tabs-unselected-modified))
-    (set-face-attribute centaur-face nil :family "Noto Sans Mono" :height 100))
+  ;(require 'centaur-tabs)
+  ;(centaur-tabs-mode t)
+  ;(global-set-key (kbd "C-<prior>")  'centaur-tabs-backward)
+  ;(global-set-key (kbd "C-<next>") 'centaur-tabs-forward)
+  ;(centaur-tabs-mode)
+  ;(centaur-tabs-headline-match)
+  ;(setq centaur-tabs-set-modified-marker t
+  ;      centaur-tabs-modified-marker " ● "
+  ;      centaur-tabs-cycle-scope 'tabs
+  ;      centaur-tabs-height 35
+  ;      centaur-tabs-set-icons t
+  ;      centaur-tabs-close-button " × ")
+  ;(dolist (centaur-face '(centaur-tabs-selected
+  ;                        centaur-tabs-selected-modified
+  ;                        centaur-tabs-unselected
+  ;                        centaur-tabs-unselected-modified))
+  ;  (set-face-attribute centaur-face nil :family "Noto Sans Mono" :height 100))
 
+
+  ;; doom
   (doom-themes-treemacs-config)
   (doom-themes-org-config)
 
-  ; mu4e config
+  ;; mu4e
   (setq mu4e-maildir "~/Maildir"
         mu4e-attachment-dir "~/downloads"
         mu4e-sent-folder "/Sent"
@@ -660,7 +691,7 @@ you should place your code here."
     "When in an org-mu4e-compose-org-mode message, htmlize and send it."
     (interactive)
     (when (member 'org~mu4e-mime-switch-headers-or-body post-command-hook)
-      (org-mime-htmlize) 
+      (org-mime-htmlize)
       (message-send-and-exit)))
 
   (add-hook 'org-ctrl-c-ctrl-c-hook 'htmlize-and-send t)
@@ -687,9 +718,6 @@ you should place your code here."
         smtpmail-smtp-server "127.0.0.1"
         smtpmail-smtp-service 1025)
 
-  (require 'org-timeline)
-  (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
-
   ;; look'n'feel
   (setq mu4e-html2text-command 'mu4e-shr2text)
   (setq shr-color-visible-luminance-min 60)
@@ -698,12 +726,21 @@ you should place your code here."
   (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
 
 
+  ;;
+  ;; erc
+  ;;
+  (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
+
+  ;;
+  ;; wiki stuff - org-roam, org-publish
+  ;;
   (require 'ox-publish)
 
-  (setq commonplace/project-dir "~/commonplace/")
+  (setq commonplace/project-dir "/home/shared/commonplace/")
   (setq commonplace/publish-dir "/var/www/html/commonplace/")
 
-  (setq commonplace/preamble "<div><a href='/'>Neil's Commonplace</a></div>")
+  (setq commonplace/preamble "<div><a href='/'>Neil's Noodlemaps</a></div>")
   (setq commonplace/postamble "<a href='https://gitlab.com/ngm/commonplace/activity'>Recent changes</a>")
   (setq commonplace/head-extra "<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>")
 
@@ -717,6 +754,7 @@ you should place your code here."
            :publishing-function org-html-publish-to-html
            :recursive t
            :headline-levels 4
+           :with-toc nil
            :html-doctype "html5"
            :html-html5-fancy t
            :html-preamble ,commonplace/preamble
@@ -734,7 +772,25 @@ you should place your code here."
            :publishing-directory ,commonplace/publish-dir
            :recursive t
            :publishing-function org-publish-attachment)))
-  )
+
+  (defun ngm/org-roam--backlinks-list (file)
+    (if (org-roam--org-roam-file-p file)
+        (--reduce-from
+         (concat acc (format "- [[file:%s][%s]]\n"
+                             (file-relative-name (car it) org-roam-directory)
+                             (org-roam--get-title-or-slug (car it))))
+         "" (org-roam-sql [:select [file-from] :from file-links :where (= file-to $s1)] file))
+      ""))
+
+  (defun ngm/org-export-preprocessor (backend)
+    (let ((links (ngm/org-roam--backlinks-list (buffer-file-name))))
+      (unless (string= links "")
+        (save-excursion
+          (goto-char (point-max))
+          (insert (concat "\n* Backlinks\n") links)))))
+
+  (add-hook 'org-export-before-processing-hook 'ngm/org-export-preprocessor)
+  (setq org-roam-graph-exclude-matcher '("sitemap" "index")))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -757,15 +813,21 @@ This function is called at the very end of Spacemacs initialization."
      (todo . " %i %-12:c")
      (tags . " %i %-12:c")
      (search . " %i %-12:c"))))
+ '(org-download-screenshot-method "import %s")
  '(org-journal-dir "~/org/journal/")
  '(org-log-into-drawer t)
+ '(org-modules
+   (quote
+    (ol-bbdb ol-bibtex ol-docview ol-eww ol-gnus ol-info ol-irc ol-mhe org-protocol ol-rmail ol-w3m)))
+ '(org-roam-directory "/home/shared/commonplace/")
  '(package-selected-packages
    (quote
-    (org-timeline ts emacsql geiser blacken centaur-tabs solaire-mode format-all mastodon csv-mode hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci haskell-mode company-cabal cmm-mode writeroom-mode zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum white-sand-theme which-key web-mode web-beautify volatile-highlights visual-fill-column vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection sql-indent spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme scss-mode sass-mode reverse-theme restart-emacs rebecca-theme rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin poet-theme planet-theme pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el password-generator paradox overseer orgit organic-green-theme org-super-agenda org-projectile org-present org-pomodoro org-mime org-journal org-download org-clock-csv org-bullets org-brain open-junk-file omtose-phellack-theme olivetti oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme nameless mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode linum-relative link-hint light-soap-theme less-css-mode kaolin-themes json-navigator json-mode js2-refactor js-doc jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide importmagic impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geben gandalf-theme fuzzy font-lock+ flycheck-pos-tip flx-ido flatui-theme flatland-theme fill-column-indicator feature-mode farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks emmet-mode emacsql-sqlite elisp-slime-nav editorconfig dumb-jump drupal-mode dracula-theme dotenv-mode doom-themes doom-modeline django-theme diminish define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme counsel-projectile company-web company-tern company-statistics company-php company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme anki-editor ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ace-jump-helm-line ac-ispell)))
+    (org-roam language-id xmlgen a slime-company slime common-lisp-snippets racket-mode faceup org-timeline ts emacsql geiser blacken centaur-tabs solaire-mode format-all mastodon csv-mode hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci haskell-mode company-cabal cmm-mode writeroom-mode zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum white-sand-theme which-key web-mode web-beautify volatile-highlights visual-fill-column vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection sql-indent spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme scss-mode sass-mode reverse-theme restart-emacs rebecca-theme rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin poet-theme planet-theme pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el password-generator paradox overseer orgit organic-green-theme org-super-agenda org-projectile org-present org-pomodoro org-mime org-journal org-download org-clock-csv org-bullets org-brain open-junk-file omtose-phellack-theme olivetti oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme nameless mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode live-py-mode linum-relative link-hint light-soap-theme less-css-mode kaolin-themes json-navigator json-mode js2-refactor js-doc jbeans-theme jazz-theme ir-black-theme inkpot-theme indent-guide importmagic impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geben gandalf-theme fuzzy font-lock+ flycheck-pos-tip flx-ido flatui-theme flatland-theme fill-column-indicator feature-mode farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks emmet-mode emacsql-sqlite elisp-slime-nav editorconfig dumb-jump drupal-mode dracula-theme dotenv-mode doom-themes doom-modeline django-theme diminish define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme counsel-projectile company-web company-tern company-statistics company-php company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme anki-editor ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ace-jump-helm-line ac-ispell)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(safe-local-variable-values
    (quote
-    ((ngm-journal-mode . t)
+    ((org-roam-directory . "/home/shared/commonplace/")
+     (ngm-journal-mode . t)
      (ngm-journal-mode)
      (projectile-project-compilation-cmd . "org-publishmake")
      (projectile-project-compilation-cmd . "org-publish")
@@ -776,6 +838,5 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-timeline-block ((t (:inherit highlight))))
- '(org-timeline-clocked ((t (:inherit trailing-whitespace)))))
+ )
 )
