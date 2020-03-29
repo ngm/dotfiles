@@ -37,7 +37,12 @@ This function should only modify configuration layer settings."
      auto-completion
      csv
      emacs-lisp
-     erc
+     common-lisp
+     (erc :variables
+           erc-server-list
+           '(("doubleloop.net"
+               :port "4242"
+               :nick "doubleloop")))
      git
      haskell
      helm
@@ -408,7 +413,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server t
+   dotspacemacs-persistent-server nil
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -526,14 +531,6 @@ you should place your code here."
   ;;
   ;; org
   ;;
-  (with-eval-after-load 'org
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((sql . t)
-       (python . t)
-       (shell . t))))
-
-
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 9)))
   (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
@@ -550,9 +547,9 @@ you should place your code here."
          (("c" "TODO scheduled today"
            entry (file+headline "~/org/_GTD.org" "Inbox")
            "** TODO %?\n SCHEDULED: %t\n")
-          ("w" "Web site clipping"
+          ("w" "Web site"
            entry (file+olp "/home/shared/commonplace/clippings.org" "Clippings")
-           "* %c :website:\n%U %?%:initial"))))
+           "** %c :website:\n%U %?%:initial"))))
 
   ;; to start in insert mode when creating via capture template
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
@@ -619,9 +616,18 @@ you should place your code here."
                ;; match any of these groups, with the default order position of 99
                ))))))
 
-  ;; org-timeline
-  (require 'org-timeline)
-  (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
+  ;; babel
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((sql . t)
+       (python . t)
+       (shell . t))))
+
+
+  ;; doom
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config)
 
 
   ;; solaire configuration
@@ -666,10 +672,6 @@ you should place your code here."
   ;                        centaur-tabs-unselected-modified))
   ;  (set-face-attribute centaur-face nil :family "Noto Sans Mono" :height 100))
 
-
-  ;; doom
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config)
 
   ;; mu4e
   (setq mu4e-maildir "~/Maildir"
@@ -788,6 +790,10 @@ you should place your code here."
         (save-excursion
           (goto-char (point-max))
           (insert (concat "\n* Backlinks\n") links)))))
+
+  ;; org-timeline
+  (require 'org-timeline)
+  (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
 
   (add-hook 'org-export-before-processing-hook 'ngm/org-export-preprocessor)
   (setq org-roam-graph-exclude-matcher '("sitemap" "index")))
