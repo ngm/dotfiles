@@ -790,7 +790,7 @@ you should place your code here."
          (concat acc (format "- [[file:%s][%s]]\n"
                              (file-relative-name (car it) org-roam-directory)
                              (org-roam--get-title-or-slug (car it))))
-         "" (org-roam-sql [:select [file-from] :from file-links :where (= file-to $s1)] file))
+         "" (org-roam-db-query [:select [from] :from links :where (= to $s1)] file))
       ""))
 
   (defun ngm/org-export-preprocessor (backend)
