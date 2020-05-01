@@ -806,7 +806,10 @@ you should place your code here."
   (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
 
   (add-hook 'org-export-before-processing-hook 'ngm/org-export-preprocessor)
-  (setq org-roam-graph-exclude-matcher '("sitemap" "index")))
+  (setq org-roam-graph-exclude-matcher '("sitemap" "index"))
+
+  ;; https://github.com/syl20bnr/spacemacs/issues/13100
+  (setq completion-styles '(helm-flex)))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
