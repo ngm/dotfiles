@@ -752,7 +752,7 @@ you should place your code here."
   (setq commonplace/publish-dir "/var/www/html/commonplace/")
 
   (setq commonplace/preamble "<div><a href='/'>Neil's Noodlemaps</a></div>")
-  (setq commonplace/postamble "<a href='https://gitlab.com/ngm/commonplace/activity'>Recent changes</a>")
+  (setq commonplace/postamble "This page last updated: %C.  All <a href='https://gitlab.com/ngm/commonplace/activity'>recent changes</a>.")
   (setq commonplace/head-extra "<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>")
 
   (setq org-publish-project-alist
