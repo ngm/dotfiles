@@ -744,68 +744,10 @@ you should place your code here."
   (setq erc-hide-list '("JOIN" "PART" "QUIT"))
 
 
-  ;;
-  ;; wiki stuff - org-roam, org-publish
-  ;;
-  (require 'ox-publish)
-
-  (setq commonplace/project-dir "/home/shared/commonplace/")
-  (setq commonplace/publish-dir "/var/www/html/commonplace/")
-
-  (setq commonplace/preamble "<div><a href='/'>Neil's Noodlemaps</a></div>")
-  (setq commonplace/postamble "This page last updated: %C.  All <a href='https://gitlab.com/ngm/commonplace/activity'>recent changes</a>.")
-  (setq commonplace/head-extra "<link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>")
-
-  (setq org-publish-project-alist
-        `(("commonplace"
-           :components ("commonplace-notes" "commonplace-static"))
-          ("commonplace-notes"
-           :base-directory ,commonplace/project-dir
-           :base-extension "org"
-           :publishing-directory ,commonplace/publish-dir
-           :publishing-function org-html-publish-to-html
-           :recursive t
-           :headline-levels 4
-           :with-toc nil
-           :html-doctype "html5"
-           :html-html5-fancy t
-           :html-preamble ,commonplace/preamble
-           :html-postamble ,commonplace/postamble
-           :html-head-include-scripts nil
-           :html-head-include-default-style nil
-           :html-head-extra ,commonplace/head-extra
-           :htmlized-source t
-           :auto-sitemap t
-           :sitemap-title "All pages"
-           )
-          ("commonplace-static"
-           :base-directory ,commonplace/project-dir
-           :base-extension "css\\|js\\|png\\|jpg\\|gif"
-           :publishing-directory ,commonplace/publish-dir
-           :recursive t
-           :publishing-function org-publish-attachment)))
-
-  (defun ngm/org-roam--backlinks-list (file)
-    (if (org-roam--org-roam-file-p file)
-        (--reduce-from
-         (concat acc (format "- [[file:%s][%s]]\n"
-                             (file-relative-name (car it) org-roam-directory)
-                             (org-roam--get-title-or-slug (car it))))
-         "" (org-roam-db-query [:select [from] :from links :where (= to $s1)] file))
-      ""))
-
-  (defun ngm/org-export-preprocessor (backend)
-    (let ((links (ngm/org-roam--backlinks-list (buffer-file-name))))
-      (unless (string= links "")
-        (save-excursion
-          (goto-char (point-max))
-          (insert (concat "\n* Backlinks\n") links)))))
-
   ;; org-timeline
   (require 'org-timeline)
   (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
 
-  (add-hook 'org-export-before-processing-hook 'ngm/org-export-preprocessor)
   (setq org-roam-graph-exclude-matcher '("sitemap" "index"))
 
   ;; https://github.com/syl20bnr/spacemacs/issues/13100
