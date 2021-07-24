@@ -3,7 +3,7 @@
 ;;   :ID:       20210326T232652.733571
 ;;   :END:
 
-;; This is the [[file:literate-configuration.org][literate configuration]] source for my [[file:spacemacs.org][spacemacs]] user config.  I use [[file:org-babel.org][org-babel]] to tangle it together into the actual config file.
+;; This is the [[id:b69228c3-14fe-41f9-bfdb-e5e34d7c2a9b][literate configuration]] source for my [[id:b529d37d-becd-495d-be37-dd91a4dc039b][spacemacs]] user config.  I use [[id:d0cfbb57-33fe-4715-932f-a34128c3f782][org-babel]] to tangle it together into the actual config file.
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -98,17 +98,18 @@
 ;;      :END:
 
    (require 'org-protocol)
-   (add-to-list 'load-path "/home/neil/.emacs.d/private/org-protocol-capture-html")
-   (require 'org-protocol-capture-html)
+   ;(add-to-list 'load-path "/home/neil/.emacs.d/private/org-protocol-capture-html")
+   ;(require 'org-protocol-capture-html)
 
    (setq org-capture-templates
          (quote
           (("c" "TODO scheduled today"
             entry (file+headline "~/org/_GTD.org" "Inbox")
             "** TODO %?\n SCHEDULED: %t\n")
-           ("w" "Web site"
-            entry (file+olp "/home/shared/commonplace/clippings.org" "Clippings")
-            "** %c :website:\n%U %?%:initial"))))
+           ;; ("w" "Web site"
+           ;;  entry (file+olp "/home/shared/commonplace/clippings.org" "Clippings")
+           ;;  "** %c :website:\n%U %?%:initial")
+           )))
 
    ;; to start in insert mode when creating via capture template
    (add-hook 'org-capture-mode-hook 'evil-insert-state)
@@ -212,6 +213,12 @@
       (setq company-backends '(company-capf)) ; for org-roam completion
       )
 
+;; Misc
+
+    
+
+  (setq org-roam-dailies-directory "journal")
+
 ;; Load my helper files
 
 
@@ -239,7 +246,7 @@
 ;;     :END:
 
 ;; For inserting links to other wiki pages more quickly, essentially with wikilink syntax.
-;; See: [[file:using-fuzzy-links-aka-wikilinks-in-org-roam.org][Using fuzzy links AKA wikilinks in org-roam]].
+;; See: [[id:6ca4da04-ae16-4ac7-825b-f06b77939ac6][Using fuzzy links AKA wikilinks in org-roam]].
 
   (require 'key-chord)
   (key-chord-mode 1)
@@ -265,18 +272,25 @@
 
 ;;     Add CREATED and LAST_MODIFIED properties to the new note.
 
-  (setq org-roam-capture-templates
-        '(("d" "default" plain (function org-roam--capture-get-point)
-            "%?"
-            :file-name "${slug}"
-            :head "#+title: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n\n"
-            :unnarrowed t)))
+  (org-roam-capture-templates
+   '(("d" "default" entry "* %?"
+      :if-new (file+head "${slug}.org"
+"#+TITLE: ${title}
+#+CREATED: %u
+#+LAST_MODIFIED: %U
 
-  (setq org-roam-dailies-directory "journal")
-  (setq org-roam-dailies-capture-templates '(("d" "daily" plain (function org-roam-capture--get-point) ""
-                                              :immediate-finish t
-                                              :file-name "journal/%<%Y-%m-%d>"
-                                              :head "#+TITLE: %<%Y-%m-%d>")))
+"))))
+  ;; (setq org-roam-capture-templates
+  ;;       '(("d" "default" plain (function org-roam--capture-get-point)
+  ;;           "%?"
+  ;;           :file-name "${slug}"
+  ;;           :head "#+title: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n\n"
+  ;;           :unnarrowed t)))
+
+  ;; (setq org-roam-dailies-capture-templates '(("d" "daily" plain (function org-roam-capture--get-point) ""
+  ;;                                             :immediate-finish t
+  ;;                                             :file-name "journal/%<%Y-%m-%d>"
+  ;;                                             :head "#+TITLE: %<%Y-%m-%d>")))
 
 ;; Updating timestamps on save
 ;;     :PROPERTIES:
@@ -322,6 +336,11 @@
 
 (setq org-roam-server-default-exclude-filters "[{ \"tags\": \"journal\", \"id\" : \"Recent changes\", \"id\":\"recentchanges\"  }]")
 
+;; dailies
+
+
+
+
 ;; Themes
 ;;    :PROPERTIES:
 ;;    :ID:       20210326T232652.841598
@@ -337,25 +356,27 @@
    
 ;; See https://github.com/hlissner/emacs-solaire-mode
 
-  (require 'solaire-mode)
+;; This appears to have been updated and I need to do something
+
+  ;;(require 'solaire-mode)
   ;; Enable solaire-mode anywhere it can be enabled
-  (solaire-global-mode +1)
-  ;; To enable solaire-mode unconditionally for certain modes:
-  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
+  ;; (solaire-global-mode +1)
+  ;; ;; To enable solaire-mode unconditionally for certain modes:
+  ;; (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
 
-  ;; ...if you use auto-revert-mode, this prevents solaire-mode from turning
-  ;; itself off every time Emacs reverts the file
-  (add-hook 'after-revert-hook #'turn-on-solaire-mode)
+  ;; ;; ...if you use auto-revert-mode, this prevents solaire-mode from turning
+  ;; ;; itself off every time Emacs reverts the file
+  ;; (add-hook 'after-revert-hook #'turn-on-solaire-mode)
 
-  ;; highlight the minibuffer when it is activated:
-  (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
+  ;; ;; highlight the minibuffer when it is activated:
+  ;; ;(add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
 
-  ;; if the bright and dark background colors are the wrong way around, use this
-  ;; to switch the backgrounds of the `default` and `solaire-default-face` faces.
-  ;; This should be used *after* you load the active theme!
-  ;;
-  ;; NOTE: This is necessary for themes in the doom-themes package!
-  (solaire-mode-swap-bg)
+  ;; ;; if the bright and dark background colors are the wrong way around, use this
+  ;; ;; to switch the backgrounds of the `default` and `solaire-default-face` faces.
+  ;; ;; This should be used *after* you load the active theme!
+  ;; ;;
+  ;; ;; NOTE: This is necessary for themes in the doom-themes package!
+  ;; (solaire-mode-swap-bg)
 
 ;; Tabs (centaur)
 ;;    :PROPERTIES:
@@ -502,7 +523,7 @@
 
 ;; Long lines
 
-;;    Fix problem with long lines.  Was mainly giving me grief with Magit - [[file:magit-performance-on-minified-js-and-css.org][Magit performance on minified JS and CSS]].
+;;    Fix problem with long lines.  Was mainly giving me grief with Magit - [[id:e73ff9d7-75c3-44b9-9ce5-4396272c0ab5][Magit performance on minified JS and CSS]].
 
 
 (global-so-long-mode 1)
