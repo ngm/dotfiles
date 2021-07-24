@@ -272,14 +272,10 @@
 
 ;;     Add CREATED and LAST_MODIFIED properties to the new note.
 
-  (org-roam-capture-templates
-   '(("d" "default" entry "* %?"
-      :if-new (file+head "${slug}.org"
-"#+TITLE: ${title}
-#+CREATED: %u
-#+LAST_MODIFIED: %U
-
-"))))
+(setq org-roam-capture-templates '(("d" "default" plain "%?"
+                                    :if-new (file+head "${slug}.org"
+                                                       "#+title: ${title}\n#+CREATED: %u\n#+LAST_MODIFIED: %U")
+                                    :unnarrowed t)))
   ;; (setq org-roam-capture-templates
   ;;       '(("d" "default" plain (function org-roam--capture-get-point)
   ;;           "%?"
