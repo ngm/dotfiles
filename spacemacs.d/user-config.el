@@ -213,11 +213,12 @@
       (setq company-backends '(company-capf)) ; for org-roam completion
       )
 
-;; Misc
+;; Setup
 
-    
 
-  (setq org-roam-dailies-directory "journal")
+(setq org-roam-v2-ack t)
+(setq org-roam-directory "/home/neil/commonplace")
+(setq org-roam-dailies-directory "journal")
 
 ;; Load my helper files
 
@@ -272,10 +273,14 @@
 
 ;;     Add CREATED and LAST_MODIFIED properties to the new note.
 
-(setq org-roam-capture-templates '(("d" "default" plain "%?"
-                                    :if-new (file+head "${slug}.org"
-                                                       "#+title: ${title}\n#+CREATED: %u\n#+LAST_MODIFIED: %U")
-                                    :unnarrowed t)))
+  (setq org-roam-capture-templates
+   '(("d" "default" entry "* %?"
+      :if-new (file+head "${slug}.org"
+"#+TITLE: ${title}
+#+CREATED: %u
+#+LAST_MODIFIED: %U
+
+"))))
   ;; (setq org-roam-capture-templates
   ;;       '(("d" "default" plain (function org-roam--capture-get-point)
   ;;           "%?"
@@ -331,11 +336,6 @@
 (setq org-roam-server-network-vis-options (json-encode (list (cons 'physics (list (cons 'enabled json-false))))))
 
 (setq org-roam-server-default-exclude-filters "[{ \"tags\": \"journal\", \"id\" : \"Recent changes\", \"id\":\"recentchanges\"  }]")
-
-;; dailies
-
-
-
 
 ;; Themes
 ;;    :PROPERTIES:
