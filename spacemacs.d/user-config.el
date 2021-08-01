@@ -216,7 +216,6 @@
 ;; Setup
 
 
-(setq org-roam-v2-ack t)
 (setq org-roam-directory "/home/neil/commonplace")
 (setq org-roam-dailies-directory "journal")
 
@@ -317,25 +316,25 @@
 
   (setq org-roam-graph-exclude-matcher '("sitemap" "index" "recentchanges"))
 
-;; org-roam-server
+;; org-roam-ui
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.829175
 ;;     :END:
 
-;; org-roam-protocol is needed to be able to click on nodes and have the corresponding file load in Emacs.
+;;     Requires v2.  Used to be org-roam-server.
 
 
-(require 'org-roam-protocol)
+(require 'websocket)
+(add-to-list 'load-path "~/.emacs.d/private/org-roam-ui")
+(load-library "org-roam-ui")
+(use-package websocket
+              :after org-roam)
 
-
-
-;; Try and speed things up a bit.  Things are *much* faster to render for me if I turn off vis.js's physics - but they resulting view is more cluttered unfortunately.  But it's kind of unusable with the physics on.
-
-
-(setq org-roam-server-network-poll nil)
-(setq org-roam-server-network-vis-options (json-encode (list (cons 'physics (list (cons 'enabled json-false))))))
-
-(setq org-roam-server-default-exclude-filters "[{ \"tags\": \"journal\", \"id\" : \"Recent changes\", \"id\":\"recentchanges\"  }]")
+(use-package org-roam-ui
+              :after org-roam ;; or :after org
+              :hook (org-roam . org-roam-ui-mode)
+              :config
+              )
 
 ;; Themes
 ;;    :PROPERTIES:
