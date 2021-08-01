@@ -52,10 +52,10 @@ This function should only modify configuration layer settings."
      javascript
      markdown
      vue
-     ;; (micropub :variables
-     ;;           token (getenv "EMUPUB_TOKEN")
-     ;;           endpoint (getenv "EMUPUB_ENDPOINT")
-     ;;           targets-config-file "~/.emacs.d/private/micropub/targets-config-file")
+     (micropub :variables
+               token (getenv "EMUPUB_TOKEN")
+               endpoint (getenv "EMUPUB_ENDPOINT")
+               targets-config-file "~/.emacs.d/private/micropub/targets-config-file")
      ;mu4e
      multiple-cursors
      finance
