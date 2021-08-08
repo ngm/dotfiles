@@ -1,7 +1,4 @@
 ;; Preamble
-;;   :PROPERTIES:
-;;   :ID:       20210326T232652.733571
-;;   :END:
 
 ;; This is the [[id:b69228c3-14fe-41f9-bfdb-e5e34d7c2a9b][literate configuration]] source for my [[id:b529d37d-becd-495d-be37-dd91a4dc039b][spacemacs]] user config.  I use [[id:d0cfbb57-33fe-4715-932f-a34128c3f782][org-babel]] to tangle it together into the actual config file.
 
@@ -11,9 +8,6 @@
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Set up keyboard shortcuts for PHPUnit
-;;     :PROPERTIES:
-;;     :ID:       20210326T232652.754586
-;;     :END:
 
   (with-eval-after-load 'php-mode
     (define-key php-mode-map (kbd "C-c C-t t") 'phpunit-current-test)
@@ -273,13 +267,14 @@
 ;;     Add CREATED and LAST_MODIFIED properties to the new note.
 
   (setq org-roam-capture-templates
-   '(("d" "default" entry "* %?"
+   '(("d" "default" plain "%?"
       :if-new (file+head "${slug}.org"
 "#+TITLE: ${title}
 #+CREATED: %u
 #+LAST_MODIFIED: %U
 
-"))))
+")
+      :unnarrowed t)))
   ;; (setq org-roam-capture-templates
   ;;       '(("d" "default" plain (function org-roam--capture-get-point)
   ;;           "%?"
