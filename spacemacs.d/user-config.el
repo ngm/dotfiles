@@ -1,7 +1,4 @@
 ;; Preamble
-;;   :PROPERTIES:
-;;   :ID:       20210326T232652.733571
-;;   :END:
 
 ;; This is the [[id:b69228c3-14fe-41f9-bfdb-e5e34d7c2a9b][literate configuration]] source for my [[id:b529d37d-becd-495d-be37-dd91a4dc039b][spacemacs]] user config.  I use [[id:d0cfbb57-33fe-4715-932f-a34128c3f782][org-babel]] to tangle it together into the actual config file.
 
@@ -11,9 +8,6 @@
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Set up keyboard shortcuts for PHPUnit
-;;     :PROPERTIES:
-;;     :ID:       20210326T232652.754586
-;;     :END:
 
   (with-eval-after-load 'php-mode
     (define-key php-mode-map (kbd "C-c C-t t") 'phpunit-current-test)
@@ -26,6 +20,13 @@
 ;;     :END:
 
   (add-to-list 'auto-mode-alist '("\\.blade.php\\'" . web-mode))
+
+;; Completion
+
+;; Ignoring completion case mainly for org-roam - hope it doesn't muss with other stuff.
+
+
+(setq completion-ignore-case t)
 
 ;; Use org-super-agenda a nicer looking agenda.
 ;;      :PROPERTIES:
@@ -124,6 +125,9 @@
                               (org-agenda-files :maxlevel . 9)))
    (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
    (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
+
+   (setq org-agenda-files (list
+        "~/org/_GTD.org" "~/org/Inbox.org"))
 
 ;; Babel
 ;;     :PROPERTIES:
@@ -224,6 +228,13 @@
 
 (load "~/.emacs.d/private/commonplace-lib/commonplace-lib.el")
 
+;; Customise the slug function
+
+
+(cl-defmethod org-roam-node-slug ((node org-roam-node))
+  (let ((title (org-roam-node-title node)))
+    (commonplace/slugify-title title)))
+
 ;; Linking to other files
 
 ;;     Because I use export heavily, I'm kind of dependent on file-based links right now (as far as I understand).  This is going to be problematic when org-roam v2 rolls around, but cross that bridge when we come to it.
@@ -273,13 +284,14 @@
 ;;     Add CREATED and LAST_MODIFIED properties to the new note.
 
   (setq org-roam-capture-templates
-   '(("d" "default" entry "* %?"
+   '(("d" "default" plain "%?"
       :if-new (file+head "${slug}.org"
 "#+TITLE: ${title}
 #+CREATED: %u
 #+LAST_MODIFIED: %U
 
-"))))
+")
+      :unnarrowed t)))
   ;; (setq org-roam-capture-templates
   ;;       '(("d" "default" plain (function org-roam--capture-get-point)
   ;;           "%?"
@@ -307,6 +319,13 @@
         time-stamp-format "\[%Y-%02m-%02d %3a %02H:%02M\]")
   (add-hook 'before-save-hook 'time-stamp nil)
 
+
+
+;; Using the org-roam-timestamps package.
+
+
+(add-hook 'org-mode-hook (org-roam-timestamps-mode))
+
 ;; Graph settings
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.824834
@@ -324,17 +343,17 @@
 ;;     Requires v2.  Used to be org-roam-server.
 
 
-(require 'websocket)
-(add-to-list 'load-path "~/.emacs.d/private/org-roam-ui")
+;(require 'websocket)
+;(add-to-list 'load-path "~/.emacs.d/private/org-roam-ui")
 (load-library "org-roam-ui")
-(use-package websocket
-              :after org-roam)
+;(use-package websocket
+;              :after org-roam)
 
-(use-package org-roam-ui
-              :after org-roam ;; or :after org
-              :hook (org-roam . org-roam-ui-mode)
-              :config
-              )
+;(use-package org-roam-ui
+;              :after org-roam ;; or :after org
+;              :hook (org-roam . org-roam-ui-mode)
+;              :config
+;              )
 
 ;; Themes
 ;;    :PROPERTIES:
