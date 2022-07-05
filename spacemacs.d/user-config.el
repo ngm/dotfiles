@@ -17,11 +17,17 @@
 ;; Use web-mode for Laravel templates.
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.758318
+;;     :mtime:    20220611203431 20211127120059
+;;     :ctime:    20211127120059
 ;;     :END:
 
   (add-to-list 'auto-mode-alist '("\\.blade.php\\'" . web-mode))
 
 ;; Completion
+;;   :PROPERTIES:
+;;   :mtime:    20211127120059
+;;   :ctime:    20211127120059
+;;   :END:
 
 ;; Ignoring completion case mainly for org-roam - hope it doesn't muss with other stuff.
 
@@ -31,6 +37,8 @@
 ;; Use org-super-agenda a nicer looking agenda.
 ;;      :PROPERTIES:
 ;;      :ID:       20210326T232652.763253
+;;      :mtime:    20211127120059
+;;      :ctime:    20211127120059
 ;;      :END:
 
   (org-super-agenda-mode)
@@ -96,6 +104,8 @@
 ;; capture templates
 ;;      :PROPERTIES:
 ;;      :ID:       20210326T232652.768075
+;;      :mtime:    20211127120059
+;;      :ctime:    20211127120059
 ;;      :END:
 
    (require 'org-protocol)
@@ -118,6 +128,8 @@
 ;; Refiling
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.772169
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
 ;;     :END:
    
 
@@ -132,6 +144,8 @@
 ;; Babel
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.776075
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
 ;;     :END:
 
 ;; babel
@@ -154,6 +168,8 @@
 ;; Deleting links
 ;;      :PROPERTIES:
 ;;      :ID:       20210326T232652.785621
+;;      :mtime:    20211127120059
+;;      :ctime:    20211127120059
 ;;      :END:
 ;; See: https://emacs.stackexchange.com/questions/10707/in-org-mode-how-to-remove-a-link
 
@@ -178,10 +194,49 @@
 ;; org-timeline
 ;;      :PROPERTIES:
 ;;      :ID:       20210326T232652.790249
+;;      :mtime:    20220705221026
+;;      :ctime:    20220705221026
 ;;      :END:
 
      (require 'org-timeline)
      (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
+
+;; org-schedule-effort
+
+
+(defun org-schedule-effort ()
+(interactive)
+  (save-excursion
+    (org-back-to-heading t)
+    (let* (
+        (element (org-element-at-point))
+        (effort (org-element-property :EFFORT element))
+        (scheduled (org-element-property :scheduled element))
+        (ts-year-start (org-element-property :year-start scheduled))
+        (ts-month-start (org-element-property :month-start scheduled))
+        (ts-day-start (org-element-property :day-start scheduled))
+        (ts-hour-start (org-element-property :hour-start scheduled))
+        (ts-minute-start (org-element-property :minute-start scheduled)) )
+      (org-schedule nil (concat
+        (format "%s" ts-year-start)
+        "-"
+        (if (< ts-month-start 10)
+          (concat "0" (format "%s" ts-month-start))
+          (format "%s" ts-month-start))
+        "-"
+        (if (< ts-day-start 10)
+          (concat "0" (format "%s" ts-day-start))
+          (format "%s" ts-day-start))
+        " "
+        (if (< ts-hour-start 10)
+          (concat "0" (format "%s" ts-hour-start))
+          (format "%s" ts-hour-start))
+        ":"
+        (if (< ts-minute-start 10)
+          (concat "0" (format "%s" ts-minute-start))
+          (format "%s" ts-minute-start))
+        "+"
+        effort)) )))
 
 ;; Writing and knowledge management
 ;;   :PROPERTIES:
@@ -229,6 +284,10 @@
 (load "~/.emacs.d/private/commonplace-lib/commonplace-lib.el")
 
 ;; Customise the slug function
+;;     :PROPERTIES:
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
+;;     :END:
 
 
 (cl-defmethod org-roam-node-slug ((node org-roam-node))
@@ -236,6 +295,10 @@
     (commonplace/slugify-title title)))
 
 ;; Linking to other files
+;;     :PROPERTIES:
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
+;;     :END:
 
 ;;     Because I use export heavily, I'm kind of dependent on file-based links right now (as far as I understand).  This is going to be problematic when org-roam v2 rolls around, but cross that bridge when we come to it.
 
@@ -245,6 +308,8 @@
 ;; Prefer immediate DB update method.
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.802602
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
 ;;     :END:
 
 ;; This updates the DB on save, rather than on an idle timer.  I was finding idle timer frustrating, as the unexpected DB update interrupted my flow.  Updating on save works better for me, as I tend to pause momentarily after a save anyway, as I usually save at the end of a sentence.
@@ -279,6 +344,8 @@
 ;; org-roam capture templates
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.815610
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
 ;;     :END:
 
 ;;     Add CREATED and LAST_MODIFIED properties to the new note.
@@ -307,6 +374,8 @@
 ;; Updating timestamps on save
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.820294
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
 ;;     :END:
 
 ;;     I would prefer to do this on org-roam files only.
@@ -329,6 +398,8 @@
 ;; Graph settings
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.824834
+;;     :mtime:    20211127120059
+;;     :ctime:    20211127120059
 ;;     :END:
 
 ;; Exclude some of the big files from the graph.
@@ -366,6 +437,8 @@
 ;; Solaire
 ;;    :PROPERTIES:
 ;;    :ID:       20210326T232652.845889
+;;    :mtime:    20211127120059
+;;    :ctime:    20211127120059
 ;;    :END:
    
 ;; See https://github.com/hlissner/emacs-solaire-mode
@@ -395,6 +468,8 @@
 ;; Tabs (centaur)
 ;;    :PROPERTIES:
 ;;    :ID:       20210326T232652.850925
+;;    :mtime:    20211127120059
+;;    :ctime:    20211127120059
 ;;    :END:
    
 ;;    Not currently using this, as I think it broke something.
@@ -422,6 +497,8 @@
 ;; Helm
 ;;    :PROPERTIES:
 ;;    :ID:       20210326T232652.855435
+;;    :mtime:    20211127120059
+;;    :ctime:    20211127120059
 ;;    :END:
   
 
@@ -470,6 +547,8 @@
 ;; mu4e (mail)
 ;;    :PROPERTIES:
 ;;    :ID:       20210326T232652.868503
+;;    :mtime:    20211127120059
+;;    :ctime:    20211127120059
 ;;    :END:
   
 
@@ -550,3 +629,8 @@
     ;; tidal
     ;;(add-to-list 'load-path "/home/neil/.emacs.d/private/tidal")
     ;;(require 'tidal)
+
+;; cook-mode
+
+
+(load "~/.emacs.d/private/cook-mode/cook-mode.el")
