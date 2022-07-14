@@ -101,6 +101,58 @@
                   ;; match any of these groups, with the default order position of 99
                   ))))))
 
+;; org-timeline
+;;      :PROPERTIES:
+;;      :ID:       20210326T232652.790249
+;;      :mtime:    20220713110622 20220705221026
+;;      :ctime:    20220705221026
+;;      :END:
+
+;; For getting a visual representation of a day plan. https://github.com/Fuco1/org-timeline
+
+
+     (require 'org-timeline)
+     (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
+
+;; org-schedule-effort
+
+;; See [[id:6c5d48ed-db88-4892-91cb-81e7ad698cea][Calculating effort estimates and scheduled times in org-mode]].
+
+
+(defun org-schedule-effort ()
+(interactive)
+  (save-excursion
+    (org-back-to-heading t)
+    (let* (
+        (element (org-element-at-point))
+        (effort (org-element-property :EFFORT element))
+        (scheduled (org-element-property :scheduled element))
+        (ts-year-start (org-element-property :year-start scheduled))
+        (ts-month-start (org-element-property :month-start scheduled))
+        (ts-day-start (org-element-property :day-start scheduled))
+        (ts-hour-start (org-element-property :hour-start scheduled))
+        (ts-minute-start (org-element-property :minute-start scheduled)) )
+      (org-schedule nil (concat
+        (format "%s" ts-year-start)
+        "-"
+        (if (< ts-month-start 10)
+          (concat "0" (format "%s" ts-month-start))
+          (format "%s" ts-month-start))
+        "-"
+        (if (< ts-day-start 10)
+          (concat "0" (format "%s" ts-day-start))
+          (format "%s" ts-day-start))
+        " "
+        (if (< ts-hour-start 10)
+          (concat "0" (format "%s" ts-hour-start))
+          (format "%s" ts-hour-start))
+        ":"
+        (if (< ts-minute-start 10)
+          (concat "0" (format "%s" ts-minute-start))
+          (format "%s" ts-minute-start))
+        "+"
+        effort)) )))
+
 ;; capture templates
 ;;      :PROPERTIES:
 ;;      :ID:       20210326T232652.768075
@@ -190,53 +242,6 @@
                (setq end   (match-end 0))
                (kill-new (match-string-no-properties 1)) ; Save the link to kill-ring
                (replace-regexp "\\[\\[.*?\\(\\]\\[\\(.*?\\)\\)*\\]\\]" "\\2" nil start end)))))))
-
-;; org-timeline
-;;      :PROPERTIES:
-;;      :ID:       20210326T232652.790249
-;;      :mtime:    20220705221026
-;;      :ctime:    20220705221026
-;;      :END:
-
-     (require 'org-timeline)
-     (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
-
-;; org-schedule-effort
-
-
-(defun org-schedule-effort ()
-(interactive)
-  (save-excursion
-    (org-back-to-heading t)
-    (let* (
-        (element (org-element-at-point))
-        (effort (org-element-property :EFFORT element))
-        (scheduled (org-element-property :scheduled element))
-        (ts-year-start (org-element-property :year-start scheduled))
-        (ts-month-start (org-element-property :month-start scheduled))
-        (ts-day-start (org-element-property :day-start scheduled))
-        (ts-hour-start (org-element-property :hour-start scheduled))
-        (ts-minute-start (org-element-property :minute-start scheduled)) )
-      (org-schedule nil (concat
-        (format "%s" ts-year-start)
-        "-"
-        (if (< ts-month-start 10)
-          (concat "0" (format "%s" ts-month-start))
-          (format "%s" ts-month-start))
-        "-"
-        (if (< ts-day-start 10)
-          (concat "0" (format "%s" ts-day-start))
-          (format "%s" ts-day-start))
-        " "
-        (if (< ts-hour-start 10)
-          (concat "0" (format "%s" ts-hour-start))
-          (format "%s" ts-hour-start))
-        ":"
-        (if (< ts-minute-start 10)
-          (concat "0" (format "%s" ts-minute-start))
-          (format "%s" ts-minute-start))
-        "+"
-        effort)) )))
 
 ;; Writing and knowledge management
 ;;   :PROPERTIES:
