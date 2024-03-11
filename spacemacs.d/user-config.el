@@ -196,7 +196,7 @@
 ;; Babel
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.776075
-;;     :mtime:    20211127120059
+;;     :mtime:    20230430140620 20211127120059
 ;;     :ctime:    20211127120059
 ;;     :END:
 
@@ -220,7 +220,7 @@
 ;; Deleting links
 ;;      :PROPERTIES:
 ;;      :ID:       20210326T232652.785621
-;;      :mtime:    20211127120059
+;;      :mtime:    20230719160925 20221016204501 20211127120059
 ;;      :ctime:    20211127120059
 ;;      :END:
 ;; See: https://emacs.stackexchange.com/questions/10707/in-org-mode-how-to-remove-a-link
@@ -243,9 +243,33 @@
                (kill-new (match-string-no-properties 1)) ; Save the link to kill-ring
                (replace-regexp "\\[\\[.*?\\(\\]\\[\\(.*?\\)\\)*\\]\\]" "\\2" nil start end)))))))
 
+;; Extracting bolder sections from a block of text into a bullet list
+
+
+(defun ngm/extract-bolded-sections ()
+  "Extract bolded sections from the selected region and place them after it in a bullet list."
+  (interactive)
+  (if (region-active-p)
+      (let ((bolded-sections '())
+            (case-fold-search nil)
+            (region-start (region-beginning))
+            (region-end (region-end)))
+        (goto-char region-start)
+        (while (re-search-forward "\\*\\([^*]+\\)\\*" region-end t)
+          (push (match-string 1) bolded-sections))
+        (setq bolded-sections (reverse bolded-sections))
+        (goto-char region-end)
+        (newline)
+        (insert "- ")
+        (insert (mapconcat 'identity bolded-sections "\n- "))
+        (newline))
+    (message "No region selected.")))
+
 ;; Writing and knowledge management
 ;;   :PROPERTIES:
 ;;   :ID:       20210326T232652.794077
+;;   :mtime:    20230819120725 20230813231035 20230813210816 20230719155745 20230702145926 20230512140501 20230512123451 20221221180402
+;;   :ctime:    20221221180402
 ;;   :END:
 
 ;;    I do my writing mostly in org-journal and org-roam.
@@ -277,6 +301,34 @@
       (setq company-backends '(company-capf)) ; for org-roam completion
       )
 
+;; word counts
+
+;; Needs the org-wc package.
+
+
+(require 'org-wc)
+(spacemacs/declare-prefix "o" "own-menu")
+(spacemacs/set-leader-keys "ow" 'org-wc-display nil)
+(spacemacs/set-leader-keys "oc" 'org-cite-insert nil)
+
+;; citations
+
+;; Handy links:
+
+;; - https://kristofferbalintona.me/posts/202206141852/
+;; - https://blog.tecosaur.com/tmio/2021-07-31-citations.html#working-with-zotero
+
+
+(require 'citeproc)
+(require 'oc-csl)
+(require 'oc-biblatex)
+(setq org-cite-export-processors
+'((latex csl)
+(t csl)))
+
+(setq org-cite-csl-styles-dir
+ (expand-file-name "~/Nextcloud2/Zotero/styles/"))
+
 ;; Setup
 
 
@@ -284,6 +336,10 @@
 (setq org-roam-dailies-directory "journal")
 
 ;; Load my helper files
+;; :PROPERTIES:
+;; :mtime:    20230505154822
+;; :ctime:    20230505154822
+;; :END:
 
 
 (load "~/.emacs.d/private/commonplace-lib/commonplace-lib.el")
@@ -295,13 +351,15 @@
 ;;     :END:
 
 
-(cl-defmethod org-roam-node-slug ((node org-roam-node))
-  (let ((title (org-roam-node-title node)))
-    (commonplace/slugify-title title)))
+(with-eval-after-load 'org-roam
+  (cl-defmethod org-roam-node-slug ((node org-roam-node))
+    (let ((title (org-roam-node-title node)))
+      (commonplace/slugify-title title)))
+  )
 
 ;; Linking to other files
 ;;     :PROPERTIES:
-;;     :mtime:    20211127120059
+;;     :mtime:    20230813205704 20211127120059
 ;;     :ctime:    20211127120059
 ;;     :END:
 
@@ -313,13 +371,13 @@
 ;; Prefer immediate DB update method.
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.802602
-;;     :mtime:    20211127120059
+;;     :mtime:    20230813192518 20230719144519 20211127120059
 ;;     :ctime:    20211127120059
 ;;     :END:
 
 ;; This updates the DB on save, rather than on an idle timer.  I was finding idle timer frustrating, as the unexpected DB update interrupted my flow.  Updating on save works better for me, as I tend to pause momentarily after a save anyway, as I usually save at the end of a sentence.
 
-  (setq org-roam-db-update-method 'immediate)
+(org-roam-db-autosync-enable)
 
 ;; Wikilink syntax for adding links
 ;;     :PROPERTIES:
@@ -414,6 +472,8 @@
 ;; org-roam-ui
 ;;     :PROPERTIES:
 ;;     :ID:       20210326T232652.829175
+;;     :mtime:    20220803203705
+;;     :ctime:    20220803203705
 ;;     :END:
 
 ;;     Requires v2.  Used to be org-roam-server.
@@ -421,7 +481,7 @@
 
 ;(require 'websocket)
 ;(add-to-list 'load-path "~/.emacs.d/private/org-roam-ui")
-(load-library "org-roam-ui")
+;(load-library "org-roam-ui")
 ;(use-package websocket
 ;              :after org-roam)
 
@@ -430,6 +490,19 @@
 ;              :hook (org-roam . org-roam-ui-mode)
 ;              :config
 ;              )
+
+;; org-roam-bibtex
+
+
+(setq org-cite-global-bibliography '("~/commonplace/My Library.bib"))
+
+;; Misc
+
+;; See: https://org-roam.discourse.group/t/possible-to-ignore-directories-within-the-org-directory/2454/
+
+
+(setq org-roam-file-exclude-regexp
+      (concat "^" (expand-file-name org-roam-directory) "/tempdir/"))
 
 ;; Themes
 ;;    :PROPERTIES:
@@ -639,3 +712,9 @@
 
 
 (load "~/.emacs.d/private/cook-mode/cook-mode.el")
+
+;; TODO Need to review this, I think it'll be resolved more elegantly upstream at some point.
+
+
+(with-eval-after-load 'undo-tree
+  (setq undo-tree-auto-save-history nil))
