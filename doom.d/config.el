@@ -76,12 +76,17 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(use-package! commonplace-lib)
 (use-package! org-roam
   :init
   (setq org-roam-directory (file-truename "~/storage/shared/commonplace/"))
   (setq org-roam-dailies-directory "journal/")
   :config
-  (setq org-roam-node-display-template "${title}"))
+  (setq org-roam-node-display-template "${title}")
+  (cl-defmethod org-roam-node-slug ((node org-roam-node))
+    (let ((title (org-roam-node-title node)))
+      (commonplace/slugify-title title)))
+  )
 
 (use-package! org-roam-timestamps
   :after org-roam

@@ -15,6 +15,7 @@
 (package! org-timeblock)
 
 (package! calfw-blocks :recipe (:host github :repo "ml729/calfw-blocks"))
+(package! commonplace-lib :recipe (:host gitlab :repo "ngm/commonplace-lib"))
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/radian-software/straight.el#the-recipe-format
