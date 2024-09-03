@@ -48,12 +48,7 @@
            ((org-super-agenda-groups
              '((:auto-property "agenda-group")))))
           ("u" "Super view"
-           agenda ""
            ((org-super-agenda-groups
-             '(;; Each group has an implicit boolean OR operator between its selectors.
-               (:name "Today"  ; Optionally specify section name
-                      :time-grid t  ; Items that appear on the time grid
-                      :tag "today"
                       :todo "TODAY")  ; Items that have this TODO keyword
                (:name "Important"
                       ;; Single arguments given alone
@@ -167,7 +162,7 @@
    (setq org-capture-templates
          (quote
           (("c" "TODO scheduled today"
-            entry (file+headline "~/org/_GTD.org" "Inbox")
+            entry (file+headline "~/Documents/org/Tasks.org" "Inbox")
             "** TODO %?\n SCHEDULED: %t\n")
            ;; ("w" "Web site"
            ;;  entry (file+olp "/home/shared/commonplace/clippings.org" "Clippings")
@@ -191,7 +186,7 @@
    (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
 
    (setq org-agenda-files (list
-        "~/org/_GTD.org" "~/org/Inbox.org"))
+        "~/Documents/org/Tasks.org"))
 
 ;; Babel
 ;;     :PROPERTIES:
@@ -714,7 +709,5 @@
 (load "~/.emacs.d/private/cook-mode/cook-mode.el")
 
 ;; TODO Need to review this, I think it'll be resolved more elegantly upstream at some point.
-
-
 (with-eval-after-load 'undo-tree
   (setq undo-tree-auto-save-history nil))
